@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes: 
+  db:
+
+services:
+  db:
+    image: postgres:13.1
+    restart: always
+    environment:
+      POSTGRES_USER: ${PSQL_USERNAME}
+      POSTGRES_PASSWORD: ${PSQL_PASSWORD}
+      POSTGRES_DB: ${PSQL_DATABASE}
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - ${PSQL_PORT}:5432
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
