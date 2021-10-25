@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ApolloError, UserInputError } from 'apollo-server-errors'
 import axios from 'axios'
 
-import {JokeResult } from './interfaces/joke.interfaces'
+import { JokeResult } from './interfaces/joke.interfaces'
 
 @Injectable()
 export class JokesService {

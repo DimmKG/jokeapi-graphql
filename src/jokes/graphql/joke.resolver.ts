@@ -1,7 +1,9 @@
 import { Args, Query, Resolver } from '@nestjs/graphql'
 
-import { Joke, JokeResult } from './interfaces/joke.interfaces'
-import { JokesService } from './jokes.service'
+import { JokeResult } from '../interfaces/joke.interfaces'
+import { JokesService } from '../jokes.service'
+
+import { Joke } from './types/joke.graphql-types'
 @Resolver(() => Joke)
 export class JokesResolver {
     constructor(private _jokesService: JokesService) {}

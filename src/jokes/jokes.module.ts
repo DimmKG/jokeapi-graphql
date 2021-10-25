@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 
-import { JokesResolver } from './jokes.resolver'
+import { JokesResolver } from './graphql/joke.resolver'
 import { JokesService } from './jokes.service'
 
 @Module({
