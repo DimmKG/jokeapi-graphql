@@ -1,4 +1,3 @@
-import { Joke } from '../graphql/types/joke.graphql-types'
 export class JokeError {
     error: true
 
@@ -15,6 +14,41 @@ export class JokeError {
     timestamp: number
 }
 
+export interface Joke {
+    id: number
+
+    error: false
+
+    category: string
+
+    type: string
+
+    joke?: string
+
+    setup?: string
+
+    delivery?: string
+    
+    flags: Flags
+
+    safe: boolean
+
+    lang: string
+}
+
+export interface Flags {
+    nsfw : boolean
+
+    religious : boolean
+
+    political : boolean
+
+    racist : boolean
+
+    sexist : boolean
+
+    explicit : boolean
+}
 
 
 export type JokeResult = Joke | JokeError

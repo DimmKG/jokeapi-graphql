@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common'
 import { ApolloError, UserInputError } from 'apollo-server-errors'
 import axios from 'axios'
 
-import { JokeResult } from './interfaces/joke.interfaces'
+import { Joke, JokeResult } from './interfaces/joke.interfaces'
 
 @Injectable()
 export class JokesService {
-    async getJoke(categories: string[]) : Promise<JokeResult> {
+    async getJoke(categories: string[]) : Promise<Joke> {
         const category = categories ? categories.join(',') : 'Any'
         const response  = await axios.get<JokeResult>('https://v2.jokeapi.dev/joke/' + category)
             .catch((e) => {
