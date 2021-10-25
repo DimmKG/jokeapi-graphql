@@ -1,8 +1,8 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql"
 
 
-@ObjectType()
-export class Flags {
+@ObjectType('Flags')
+export class FlagsType {
     @Field()
     nsfw : boolean
 
@@ -22,8 +22,8 @@ export class Flags {
     explicit : boolean
 }
 
-@ObjectType()
-export class Joke {
+@ObjectType('Joke')
+export class JokeType {
     @Field(() => Int)
     id: number
 
@@ -45,8 +45,8 @@ export class Joke {
     @Field({nullable: true})
     delivery?: string
     
-    @Field(() => Flags)
-    flags: Flags
+    @Field(() => FlagsType)
+    flags: FlagsType
 
     @Field()
     safe: boolean
