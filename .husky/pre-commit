@@ -1,0 +1,2 @@
+npx --no-install pretty-quick --pattern \"**/*.ts\" --staged --bail 
+npm run lint:ts
