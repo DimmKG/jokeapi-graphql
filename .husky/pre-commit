@@ -1,2 +1,5 @@
+#!/bin/sh
+# husky
+# v1.0.0...
 npx --no-install pretty-quick --pattern \"**/*.ts\" --staged --bail 
 npm run lint:ts
