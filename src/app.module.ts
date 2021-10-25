@@ -1,4 +1,3 @@
-import { join } from 'path'
 
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
@@ -14,7 +13,7 @@ import { JokesModule } from './jokes/jokes.module'
         ConfigModule.forRoot(config),
         TypeOrmModule.forRootAsync(typeOrmConfig),
         GraphQLModule.forRoot({
-            autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+            autoSchemaFile: true,
         }),
         JokesModule,
     ],
