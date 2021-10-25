@@ -18,7 +18,7 @@ export class JokesService {
             })
         const result =  response.data
         if(result.error) {
-            throw new UserInputError(result.message + '.' + result.additionalInfo, {error: result})
+            throw new UserInputError(result.message + '. ' + result.additionalInfo, {error: result})
         }
         return result
     }
