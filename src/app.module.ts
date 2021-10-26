@@ -13,7 +13,8 @@ import { JokesModule } from './jokes/jokes.module'
         ConfigModule.forRoot(config),
         TypeOrmModule.forRootAsync(typeOrmConfig),
         GraphQLModule.forRoot({
-            autoSchemaFile: true,
+            autoTransformHttpErrors: true, //It doesn't work (INTERNAL_SERVER_ERROR)
+            autoSchemaFile: true
         }),
         JokesModule,
     ],

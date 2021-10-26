@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common'
-import { ApolloError, UserInputError } from 'apollo-server-errors'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import axios from 'axios'
 
 import { JokeFiltersDto } from './dtos/joke-filters.dto'
@@ -30,15 +29,20 @@ export class JokesService {
         const response  = await axios.get<JokeResult>(
             'https://v2.jokeapi.dev/joke/' + category, {params: queryParams})
             .catch((e) => {
-                throw new ApolloError(
-                    'Unable to get a joke from the JokeAPI server.',
-                    undefined,
-                    { error: {message: e.message, code: e.code} }
-                )
+                throw new HttpException({
+                    message: 'Unable to get a joke from the JokeAPI server.',
+                    error: {message: e.message, code: e.code}
+                }, 
+                HttpStatus.INTERNAL_SERVER_ERROR)
             })
+
         const result =  response.data
         if(result.error) {
-            throw new UserInputError(result.message + '. ' + result.additionalInfo, {error: result})
+            throw new HttpException({
+                message: result.message + '. ' + result.additionalInfo,
+                error: result
+            },
+            HttpStatus.BAD_REQUEST)
         } 
         return result
     }
