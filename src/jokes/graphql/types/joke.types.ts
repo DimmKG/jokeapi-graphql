@@ -28,9 +28,6 @@ export class JokeType {
     id: number
 
     @Field()
-    error: false
-
-    @Field()
     category: string
 
     @Field()

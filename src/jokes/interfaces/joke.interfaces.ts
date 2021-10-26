@@ -17,7 +17,7 @@ export class JokeError {
 export interface Joke {
     id: number
 
-    error: false
+    error?: false
 
     category: string
 
@@ -50,5 +50,14 @@ export interface Flags {
     explicit : boolean
 }
 
+export interface JokesArray {
+    error: false
+
+    amount: number
+
+    jokes: Joke[]
+}
 
 export type JokeResult = Joke | JokeError
+
+export type JokeArrayResult = JokesArray | JokeError

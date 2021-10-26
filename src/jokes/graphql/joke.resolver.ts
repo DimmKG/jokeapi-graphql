@@ -1,4 +1,5 @@
-import { Args, Query, Resolver } from '@nestjs/graphql'
+import { HttpException, HttpStatus } from '@nestjs/common'
+import { Args, Int, Query, Resolver } from '@nestjs/graphql'
 
 import { Joke } from '../interfaces/joke.interfaces'
 import { JokesService } from '../jokes.service'
@@ -12,7 +13,26 @@ export class JokesResolver {
     @Query(() =>  JokeType, {
         description: '[Jokes] Get a joke from JokeAPI'
     })
-    async joke(@Args('filters', {type: () => JokeFiltersInput}) filters: JokeFiltersInput): Promise<Joke> {
+    async joke(@Args('filters', {type: () => JokeFiltersInput, nullable: true}) filters?: JokeFiltersInput): Promise<Joke> {
         return await this._jokesService.getJoke(filters)
+    }
+
+    @Query(() =>  [JokeType], {
+        description: '[Jokes] Get jokes from JokeAPI'
+    })
+    async jokes(@Args('filters', {type: () => JokeFiltersInput, nullable: true}) filters?: JokeFiltersInput,
+                @Args('amount', {
+                    type: () => Int, 
+                    defaultValue: 1,
+                    description: 'Sets max amount of jokes in a response'
+                }) amount = 1) : Promise<Joke[]> {
+        if(amount <= 0) {
+            throw new HttpException('Amount should be greater than zero', HttpStatus.BAD_REQUEST)
+        }
+        if(amount === 1) {
+            return [await this._jokesService.getJoke(filters)]
+        }
+
+        return await this._jokesService.getJokes(amount, filters)
     }
 }
