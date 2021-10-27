@@ -1,5 +1,7 @@
-import { HttpException, HttpStatus } from '@nestjs/common'
+import { HttpException, HttpStatus, UseGuards } from '@nestjs/common'
 import { Args, Int, Query, Resolver } from '@nestjs/graphql'
+
+import { AuthGuard } from 'src/auth/guards/auth.guard'
 
 import { Joke } from '../interfaces/joke.interfaces'
 import { JokesService } from '../jokes.service'
@@ -10,6 +12,7 @@ import { JokeType } from './types/joke.types'
 export class JokesResolver {
     constructor(private readonly _jokesService: JokesService) {}
 
+    @UseGuards(AuthGuard)
     @Query(() =>  JokeType, {
         description: '[Jokes] Get a joke from JokeAPI'
     })
@@ -17,6 +20,7 @@ export class JokesResolver {
         return await this._jokesService.getJoke(filters)
     }
 
+    @UseGuards(AuthGuard)
     @Query(() =>  [JokeType], {
         description: '[Jokes] Get jokes from JokeAPI'
     })
