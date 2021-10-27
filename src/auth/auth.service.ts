@@ -26,11 +26,6 @@ import { JwtPayload } from './interfaces/jwtpayload.interface'
 
 const DEFAULT_ACCESS_TOKEN_TTL = 600
 
-/** Команды для генерирования ключей, ключи нужно закинуть в папку assets
- * ssh-keygen -t rsa -b 4096 -m PEM -f private.key
- * openssl rsa -in private.key -pubout -outform PEM -out public.key
- * **/
-
 @Injectable()
 export class AuthService {
     private _logger = new Logger(AuthService.name)
@@ -43,11 +38,11 @@ export class AuthService {
     private readonly _tokenType: string
     private readonly _refreshTokenTtl: number
     
-    //Supported algorithms from jsonwebtoken. See 
-    private readonly _supportedAlgs = ["HS256", "HS384", "HS512", 
-                                    "RS256", "RS384", "RS512", 
-                                    "ES256", "ES384", "ES512", 
-                                    "PS256", "PS384", "PS512","none"]
+    //Supported algorithms 
+    private readonly _supportedAlgs = [ 'HS256', 'HS384', 'HS512',
+                                     'RS256', 'RS384', 'RS512', 
+                                    'ES256', 'ES384', 'ES512', 
+                                    'PS256', 'PS384', 'PS512']
 
     constructor(
         private readonly _configService: ConfigService,
@@ -74,12 +69,20 @@ export class AuthService {
             algorithm: this._alg,
             keyid: 'main',
         }
+        
         this._jwtPrivateKey = fs.readFileSync(
             `${process.cwd()}/assets/private.key`,
         )
-        this._jwtPublicKey = fs.readFileSync(
-            `${process.cwd()}/assets/public.key`,
-        )
+        
+        //HMAC-SHA has a one key only.
+        // eslint-disable-next-line
+        if(this._alg.substr(0,2) !== 'HS') {
+            this._jwtPublicKey = fs.readFileSync(
+                `${process.cwd()}/assets/public.key`,
+            )
+        } else {
+            this._jwtPublicKey = this._jwtPrivateKey
+        }
 
         this._tokenType = this._configService.get<string>(
             'TOKEN_TYPE',
