@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common'
+import { Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 
@@ -16,6 +16,8 @@ async function bootstrap(): Promise<void> {
 
     const port = configService.get('PORT') || DEFAULT_APP_PORT
     const hostname = configService.get('HOST') || DEFAULT_APP_HORT
+
+    app.useGlobalPipes(new ValidationPipe())
 
     await app.listen(port, hostname, () =>
         logger.log(`Server running at ${hostname}:${port}`),
