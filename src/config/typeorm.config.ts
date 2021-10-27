@@ -28,10 +28,12 @@ export const typeOrmConfig: TypeOrmModuleAsyncOptions = {
             syncMode = Boolean(+configService.get('SYNC_MODE'))
             logger.warn('Synchronization mode is activated')
             if (syncMode) {
-                logger.warn(
-                    'Drop database mode is active. All saved data will be deleted!',
-                )
                 dropDB = Boolean(+configService.get('DROP_DATABASE'))
+                if(dropDB) {
+                    logger.warn(
+                        'Drop database mode is active. All saved data will be deleted!',
+                    )
+                }
             }
         }
 
