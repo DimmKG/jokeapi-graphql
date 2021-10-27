@@ -53,10 +53,10 @@ export class AuthService {
     ) {
         const algString = this._configService.get<string>('ALGORITHM')
         if(!algString) {
-            throw new Error('Algorithm type is not provided. Check ALGORITHM variable in .env file')
+            throw new Error('Algorithm type is not provided.\nCheck ALGORITHM variable in .env file')
         }
         if(!this._supportedAlgs.includes(algString)) {
-            throw new Error('Unsupported algorithm type: ' + algString)
+            throw new Error('Unsupported algorithm type: ' + algString + '\nCheck ALGORITHM variable in .env file')
         }
         
         this._alg = algString as Algorithm
