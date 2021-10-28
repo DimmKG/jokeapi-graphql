@@ -10,21 +10,27 @@ import { AuthType } from './graphql/types/auth.type'
 export class AuthResolver {
     constructor(private readonly _authService: AuthService) {}
 
-    @Mutation(() => UserType, {description: 'Create new account'})
+    @Mutation(() => UserType, {
+        description: '[Auth] Create a new account'
+    })
     async signUp(@Args('input') input: CreateUserInput): Promise<UserType> {
         const response = await this._authService.signUp(input)
 
         return response
     }
 
-    @Query(() => AuthType, {description: 'Sign in to an account'})
+    @Query(() => AuthType, {
+        description: '[Auth] Sign in to the account'
+    })
     async signIn(@Args('input') input: CreateUserInput): Promise<AuthType> {
         const response = await this._authService.signIn(input)
 
         return response
     }
 
-    @Mutation(() => AuthType)
+    @Mutation(() => AuthType, {
+        description: '[Auth] Refresh the JWT token'
+    })
     async refreshToken(
         @Args('refreshToken') refreshToken: string,
         @Args('accessToken') accessToken: string,
