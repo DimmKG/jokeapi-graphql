@@ -70,16 +70,20 @@ export class AuthService {
             keyid: 'main',
         }
         
-        this._jwtPrivateKey = fs.readFileSync(
-            `${process.cwd()}/assets/private.key`,
-        )
+        let privateKeyPath = this._configService.get<string>('PRIVATE_KEY_FILE')
+        if(!privateKeyPath) {
+            privateKeyPath = `${process.cwd()}/assets/private.key`
+        }
+        this._jwtPrivateKey = fs.readFileSync(privateKeyPath)
         
         //HMAC-SHA has a one key only.
         // eslint-disable-next-line
         if(this._alg.substr(0,2) !== 'HS') {
-            this._jwtPublicKey = fs.readFileSync(
-                `${process.cwd()}/assets/public.key`,
-            )
+            let publicKeyPath = this._configService.get<string>('PUBLIC_KEY_FILE')
+            if(!publicKeyPath) {
+                publicKeyPath = `${process.cwd()}/assets/public.key`
+            }
+            this._jwtPublicKey = fs.readFileSync(publicKeyPath)
         } else {
             this._jwtPublicKey = this._jwtPrivateKey
         }
