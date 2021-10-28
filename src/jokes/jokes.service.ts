@@ -11,6 +11,7 @@ type QueryParams = {
     contains?: string
     amount?: number
 }
+
 @Injectable()
 export class JokesService {
     async getJoke(filters?: JokeFiltersDto) : Promise<Joke> {
