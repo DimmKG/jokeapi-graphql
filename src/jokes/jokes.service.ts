@@ -82,11 +82,13 @@ export class JokesService {
             }
         }
 
+        const { language, type, contains } = filters
+
         return {
             blacklistFlags: flags,
-            lang: filters.language,
-            type: filters.type,
-            contains: filters.contains,
+            lang: language,
+            type,
+            contains,
             amount
         }
     }
